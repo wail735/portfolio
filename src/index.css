@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --color-neon-cyan: var(--color-acc1);
+  --color-neon-purple: var(--color-acc2);
+  --color-dark-bg: var(--color-bg);
+  --color-dark-card: rgba(20, 20, 25, 0.7);
+}
+
+:root {
+  color-scheme: dark;
+  /* Thème Par Défaut : Néon Cyan & Violet */
+  --color-bg: #0a0a0c;
+  --color-acc1: #00f0ff;
+  --color-acc2: #b026ff;
+}
+
+body.theme-matrix {
+  /* Thème Matrix : Vert Hacker */
+  --color-bg: #050d05;
+  --color-acc1: #00ff41;
+  --color-acc2: #008f11;
+}
+
+body.theme-cyberpunk {
+  /* Thème Cyberpunk : Jaune & Rose Magenta */
+  --color-bg: #120b1c;
+  --color-acc1: #f3e600;
+  --color-acc2: #ff003c;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: theme('colors.dark-bg');
+  color: #ffffff;
+  overflow-x: hidden;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  cursor: none; /* Désactive la souris pour le composant Custom Cursor */
+  transition: background-color 0.5s ease;
+}
+
+/* S'assure que même lorsqu'on survole un lien, le pointeur natif est caché */
+a, button, input, textarea, select {
+  cursor: none !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: theme('colors.dark-bg');
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: theme('colors.neon-cyan');
+}
