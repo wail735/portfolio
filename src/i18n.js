@@ -52,7 +52,7 @@ const resources = {
         title: "Quelques Projets",
         viewBtn: "Voir les détails",
         projectsList: [
-          { title: "E-Commerce 3D", desc: "Une boutique en ligne avec une visualisation 3D des produits.", fullDesc: "Architecture complète pour un E-Commerce du futur gérant les paiements avec Stripe." },
+          { title: "Cyborg Gaming", desc: "Plateforme de jeux e-sport futuriste.", fullDesc: "Une application web complexe développée pour l'univers du gaming. Architecture moderne et responsive design. Conçue avec passion pour les joueurs." },
           { title: "Dashboard Analytique", desc: "Plateforme SAAS pour visualiser des données complexes en temps réel.", fullDesc: "Une console puissante bâtie pour les Data Scientists." },
           { title: "App Web Sociale", desc: "Réseau social minimaliste de partage de code.", fullDesc: "Réseau social en temps réel géré par Socket.io." }
         ]
@@ -121,7 +121,7 @@ const resources = {
         title: "My Skills", list: [{ name: "Frontend", desc: "React, Vue" }, { name: "Backend", desc: "Node.js, MongoDB" }, { name: "Design", desc: "Figma" }, { name: "3D Web", desc: "Three.js" }, { name: "Tools", desc: "Git, Vite" }, { name: "Soft Skills", desc: "Clean Code" }]
       },
       projects: {
-        title: "Some Projects", viewBtn: "Details", projectsList: [{ title: "3D E-Commerce", desc: "3D store.", fullDesc: "Full architecture." }, { title: "Dashboard", desc: "SAAS dashboard.", fullDesc: "Powerful console." }, { title: "Social App", desc: "Social network.", fullDesc: "Realtime Socket.io app." }]
+        title: "Some Projects", viewBtn: "Details", projectsList: [{ title: "Cyborg Gaming", desc: "Futuristic e-sports platform.", fullDesc: "A complex web application designed for the gaming universe with modern architecture." }, { title: "Dashboard", desc: "SAAS dashboard.", fullDesc: "Powerful console." }, { title: "Social App", desc: "Social network.", fullDesc: "Realtime Socket.io app." }]
       },
       blog: {
         title: "Tech Watch", read: "Read article",

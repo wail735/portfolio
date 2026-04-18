@@ -19,9 +19,25 @@ export default function Projects() {
   // Mapping des data statiques sur les projets traduits
   const projects = rawProjects.map((proj, index) => {
     const techStacks = [
-        ['React', 'Three.js', 'Tailwind CSS', 'Stripe'],
+        ['HTML5', 'CSS3', 'JavaScript', 'Responsive UI'],
         ['Next.js', 'Chart.js', 'Framer Motion', 'Firebase'],
         ['Vue.js', 'Node.js', 'MongoDB', 'Socket.io']
+    ];
+    const githubLinks = [
+        'https://github.com/wail735/Cyborg-Gaming', // Lien officiel
+        '#',
+        '#'
+    ];
+    const demoLinks = [
+        'https://cyborg-gaming-3hy4.vercel.app', // Lien Live Vercel
+        '#',
+        '#'
+    ];
+    // Utilisation d'une vraie image au lieu du fond bleu simulé
+    const images = [
+        'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1000&auto=format&fit=crop', // Stock image gaming
+        null,
+        null
     ];
     const imageBgs = [
         'bg-gradient-to-br from-blue-900 to-black',
@@ -32,8 +48,9 @@ export default function Projects() {
         ...proj,
         idx: index,
         tech: techStacks[index] || ['React', 'CSS'],
-        github: '#',
-        demo: '#',
+        github: githubLinks[index] || '#',
+        demo: demoLinks[index] || '#',
+        imageUrl: images[index] || null,
         imageBg: imageBgs[index] || 'bg-black'
     };
   });
@@ -59,25 +76,32 @@ export default function Projects() {
               onClick={() => setSelectedProject(project)}
             >
               <Tilt
-                className="group relative flex flex-col justify-between p-6 bg-[#111] border border-white/10 rounded cursor-pointer overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.5)] h-[100%] hover:border-cyan-500/50 transition-colors"
+                className="group relative flex flex-col justify-between p-6 bg-[#111] border border-white/10 rounded cursor-pointer overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.5)] h-[100%] hover:border-[var(--color-acc1)] transition-colors"
                 glareEnable={true} 
                 glareMaxOpacity={0.4} 
-                glareColor="#00f0ff" 
+                glareColor="var(--color-acc1)" 
                 glarePosition="all" 
                 scale={1.03}
                 transitionSpeed={1000}
                 tiltMaxAngleX={8}
                 tiltMaxAngleY={8}
               >
-                <div className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 z-0 ${project.imageBg}`}></div>
+                {/* Image de fond ou couleur fallback */}
+                <div 
+                  className={`absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-500 z-0 bg-cover bg-center ${!project.imageUrl ? project.imageBg : ''}`}
+                  style={project.imageUrl ? { backgroundImage: `url(${project.imageUrl})` } : {}}
+                ></div>
 
+                <div className="relative z-10 w-full h-full bg-gradient-to-t from-[#111] via-[#111]/80 to-transparent absolute inset-0 group-hover:opacity-100 transition-opacity z-1 pointer-events-none"></div>
+                
+                {/* Contenu de la carte - RESTAURATION DE LA BALISE */}
                 <div className="relative z-10">
-                <div className="flex justify-between items-center mb-6 text-[var(--color-acc1)]">
-                  <div className="w-10 h-10 flex items-center justify-center">
-                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-                    </svg>
-                  </div>
+                  <div className="flex justify-between items-center mb-6 text-[var(--color-acc1)]">
+                    <div className="w-10 h-10 flex items-center justify-center">
+                      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                      </svg>
+                    </div>
                   <div className="flex gap-4">
                     <a href={project.github} onClick={e => e.stopPropagation()} className="text-gray-400 hover:text-[var(--color-acc1)] transition-colors">
                       <GithubIcon size={20} />
@@ -138,8 +162,11 @@ export default function Projects() {
                  ))}
               </div>
 
-              <div className={`w-full h-48 md:h-64 rounded-lg mb-8 ${selectedProject.imageBg} flex items-center justify-center`}>
-                 <span className="text-white/50 font-bold tracking-widest uppercase">Screenshots / Demo</span>
+              <div 
+                 className={`w-full h-48 md:h-64 rounded-lg mb-8 flex items-center justify-center bg-cover bg-center border border-white/10 ${!selectedProject.imageUrl ? selectedProject.imageBg : ''}`}
+                 style={selectedProject.imageUrl ? { backgroundImage: `url(${selectedProject.imageUrl})` } : {}}
+              >
+                 {!selectedProject.imageUrl && <span className="text-white/50 font-bold tracking-widest uppercase">Screenshots / Demo</span>}
               </div>
 
               <p className="text-gray-300 text-lg leading-relaxed mb-10">

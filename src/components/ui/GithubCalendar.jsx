@@ -2,7 +2,10 @@ import React from 'react';
 
 export default function GithubCalendar() {
   const username = 'wail735';
-  const imgUrl = `https://ghchart.rshah.org/39d353/${username}`;
+  
+  // Vercel APIs sont extrêmement stables (99.9% Uptime) contrairement à ghchart
+  const graphUrl = `https://github-readme-activity-graph.vercel.app/graph?username=${username}&bg_color=00000000&color=39d353&line=39d353&point=ffffff&area=true&hide_border=true`;
+  const statsUrl = `https://github-readme-stats.vercel.app/api?username=${username}&show_icons=true&theme=tokyonight&hide_border=true&bg_color=00000000&locale=fr`;
 
   return (
     <div className="w-full overflow-x-auto p-6 md:p-8 bg-dark-card border border-white/10 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] mt-12 mb-4 group relative">
@@ -16,19 +19,32 @@ export default function GithubCalendar() {
          </div>
       </div>
       
-      {/* Container Graphique */}
-      <div className="w-full min-h-[160px] flex items-center justify-center bg-black/40 rounded-xl border border-white/5 p-4 overflow-hidden relative">
-         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
-         {/* Injection pure de l'API graphique GitHub */}
-         <img 
-            src={imgUrl} 
-            alt={`GitHub Contribution Graph for ${username}`} 
-            className="w-full max-w-4xl opacity-90 transition-all duration-500 group-hover:opacity-100 group-hover:scale-[1.02] filter drop-shadow-[0_0_8px_rgba(57,211,83,0.4)] hue-rotate-15 contrast-125" 
-            onError={(e) => { e.target.style.display='none'; document.getElementById('gh-error').style.display='block'; }}
-         />
-         <div id="gh-error" className="hidden text-red-400 font-mono text-sm text-center">
-            [Erreur API] Utilisateur introuvable ou erreur de connexion GitHub.
-         </div>
+      {/* Layout Split : Graphique d'Activité + Statistiques Vitales */}
+      <div className="flex flex-col lg:flex-row gap-6 items-stretch justify-center">
+        
+        {/* Container Graphique d'Activité (Ligne temporelle dynamique) */}
+        <div className="w-full lg:w-2/3 min-h-[160px] flex items-center justify-center bg-black/40 rounded-xl border border-white/5 p-4 overflow-hidden relative">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
+          <img 
+              src={graphUrl} 
+              alt={`Activité de ${username}`} 
+              className="w-full h-auto opacity-90 transition-all duration-500 hover:opacity-100 hover:scale-[1.02] filter drop-shadow-[0_0_8px_rgba(57,211,83,0.4)]" 
+              onError={(e) => { e.target.style.display='none'; document.getElementById('gh-error').style.display='block'; }}
+          />
+          <div id="gh-error" className="hidden text-red-400 font-mono text-sm text-center">
+              [Erreur API] Service d'activité indisponible.
+          </div>
+        </div>
+
+        {/* Container Statistiques Globales (Le bulletin de notes) */}
+        <div className="w-full flex-grow lg:w-1/3 flex items-center justify-center bg-black/40 rounded-xl border border-white/5 p-2 relative hover:scale-[1.02] transition-transform duration-500 cursor-pointer">
+          <img 
+            src={statsUrl} 
+            alt={`Statistiques de ${username}`}
+            className="w-full h-full object-contain opacity-90 filter drop-shadow-[0_0_8px_rgba(0,240,255,0.2)]"
+          />
+        </div>
+
       </div>
 
     </div>
