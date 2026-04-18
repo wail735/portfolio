@@ -17,12 +17,16 @@ export default function Contact() {
 
     setStatus('submitting');
     try {
-      // Si une variable d'environnement existe (en ligne), on l'utilise, sinon on utilise le local
-      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
-      const response = await fetch(`${apiUrl}/api/contact`, {
+      // Utilisation du service FormSubmit pour envoyer directement un email sans avoir besoin du serveur backend
+      const response = await fetch("https://formsubmit.co/ajax/akramwail382@gmail.com", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+            _subject: `Nouveau message Portfolio de ${formData.name}`
+        }),
       });
       const result = await response.json();
       if (result.success) {
