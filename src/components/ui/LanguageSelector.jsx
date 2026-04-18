@@ -41,47 +41,50 @@ export default function LanguageSelector() {
       // Extraction magique du code ISO
       let targetIso = languageMap[query] || query.slice(0, 2);
 
-      // Fonction unitaire de traduction via Gateway publique Google NLP sécurisée
-      const translateText = async (text) => {
-        if (typeof text !== 'string' || !text.trim()) return text;
-        try {
-          // Utilisation d'un Proxy CORS transparent pour éviter les blocages de sécurité des navigateurs
-          const targetUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=fr&tl=${targetIso}&dt=t&q=${encodeURIComponent(text)}`;
-          const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
-          
-          const res = await fetch(proxyUrl);
-          const data = await res.json();
-          return data[0].map(x => x[0]).join('');
-        } catch (e) {
-          console.warn("Texte bloqué par sécurité de l'API, maintien de l'original:", text);
-          return text;
-        }
-      };
+      // Si la traduction est existante dans nos fichiers de données internes (Anglais, Français...)
+      if (['en', 'fr'].includes(targetIso) || i18n.hasResourceBundle(targetIso, 'translation')) {
+         i18n.changeLanguage(targetIso);
+         addToast(`Interface générée nativement (${targetIso.toUpperCase()})`, "success");
+         setShowInput(false);
+         setLangQuery('');
+         setIsTranslating(false);
+         return;
+      }
 
-      // Parcours récursif très profond avec THROTTLING (Anti-bannissement)
-      const traverseAndTranslate = async (obj) => {
-        if (typeof obj === 'string') {
-          // Pause artificielle de 150ms pour ne pas surcharger les serveurs de Google (Anti-erreur 429 Too Many Requests)
-          await new Promise(resolve => setTimeout(resolve, 150));
-          return await translateText(obj);
-        } else if (Array.isArray(obj)) {
-          const newArr = [];
-          for (const item of obj) {
-             newArr.push(await traverseAndTranslate(item));
-          }
-          return newArr;
-        } else if (typeof obj === 'object' && obj !== null) {
-          const newObj = {};
-          const keys = Object.keys(obj);
-          for (const key of keys) {
-             newObj[key] = await traverseAndTranslate(obj[key]);
-          }
-          return newObj;
+      // Extraction de toutes les phrases pour BATCH-TRANSLATION (1 seule requête API)
+      const stringsToTranslate = [];
+      const extractStrings = (obj) => {
+        if (typeof obj === 'string') stringsToTranslate.push(obj);
+        else if (Array.isArray(obj)) obj.forEach(extractStrings);
+        else if (typeof obj === 'object') Object.values(obj).forEach(extractStrings);
+      };
+      extractStrings(currentResource);
+
+      // On joint tout avec un séparateur secret très reconnaissable
+      const bulkText = stringsToTranslate.join('\n\n|===|\n\n');
+
+      // Traduction Massive en 1 appel direct (0 proxy requis, 0 Throttling requis)
+      const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=fr&tl=${targetIso}&dt=t&q=${encodeURIComponent(bulkText)}`);
+      if (!res.ok) throw new Error("API Google indisponible (CORS/429)");
+      
+      const data = await res.json();
+      const translatedBulk = data[0].map(x => x[0]).join('');
+      const translatedStrings = translatedBulk.split(/\n\s*\|===\|\s*\n/); // Regex tolérante aux espaces
+
+      // Ré-injection dans le dictionnaire de l'interface
+      let idx = 0;
+      const rebuildDictionary = (obj) => {
+        if (typeof obj === 'string') return translatedStrings[idx++] || obj;
+        if (Array.isArray(obj)) return obj.map(rebuildDictionary);
+        if (typeof obj === 'object') {
+           const newObj = {};
+           for (const key in obj) newObj[key] = rebuildDictionary(obj[key]);
+           return newObj;
         }
         return obj;
       };
 
-      const translatedData = await traverseAndTranslate(currentResource);
+      const translatedData = rebuildDictionary(currentResource);
       
       // Enregistrement au coeur de i18n et Switch d'interface
       i18n.addResourceBundle(targetIso, 'translation', translatedData, true, true);
