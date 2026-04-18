@@ -40,6 +40,19 @@ export default function Navbar() {
     document.body.className = themes[nextIndex];
   };
 
+  // Gestion du clic mobile pour forcer le scroll APRÈS la fermeture du menu
+  const handleMobileClick = (e, href) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    
+    setTimeout(() => {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 200); // Wait for the menu closing animation
+  };
+
   return (
     <motion.nav 
       initial={{ y: -100 }}
@@ -115,7 +128,7 @@ export default function Navbar() {
                 <a 
                   key={link.name} 
                   href={link.href} 
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={(e) => handleMobileClick(e, link.href)}
                   className="text-lg font-medium text-gray-300 hover:text-[var(--color-acc1)] transition-colors"
                 >
                   {link.name}
