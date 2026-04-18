@@ -89,13 +89,14 @@ export default function TrophyCanvas({ experiences }) {
   if (!experiences || experiences.length === 0) return null;
 
   const getPosition = (index, total) => {
-    // Si l'utilisateur n'a qu'un seul trophée, on le centre. Mieux vaut prévenir l'excentration.
-    if (total === 1) return [0, 1, 0];
+    // Si l'utilisateur n'a qu'un seul trophée, on le centre.
+    if (total === 1) return [0, 2.5, 0];
     
     // Sinon on les dispose en cercle (Orbites)
     const angle = (index / total) * Math.PI * 2;
     const radius = 4;
-    return [Math.cos(angle) * radius, 1, Math.sin(angle) * radius];
+    // On augmente la valeur Y à 2.5 pour tout remonter vers le centre de l'écran 
+    return [Math.cos(angle) * radius, 2.5, Math.sin(angle) * radius];
   };
 
   return (
@@ -141,13 +142,12 @@ export default function TrophyCanvas({ experiences }) {
 
         {/* Autorotate navigue entre les diplômes subtilement */}
         <OrbitControls 
-          enableZoom={true} 
+          enableZoom={false} 
           enablePan={false} 
           autoRotate={true}
           autoRotateSpeed={0.8}
           maxPolarAngle={Math.PI / 1.5}
-          minDistance={5}
-          maxDistance={15}
+          target={[0, 0, 0]}
         />
       </Canvas>
     </div>
