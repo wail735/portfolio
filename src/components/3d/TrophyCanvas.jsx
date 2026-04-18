@@ -99,7 +99,7 @@ export default function TrophyCanvas({ experiences }) {
   };
 
   return (
-    <div className="w-full h-[700px] border border-white/5 bg-black/40 rounded-2xl overflow-hidden relative shadow-[0_0_80px_rgba(0,0,0,0.5)] cursor-grab active:cursor-grabbing">
+    <div className="w-full h-[700px] border border-white/5 bg-black/40 rounded-2xl overflow-hidden relative shadow-[0_0_80px_rgba(0,0,0,0.5)] pointer-events-none">
       
       {/* HUD Visuel (Heads UP Display) */}
       <div className="absolute top-6 left-6 z-10 flex flex-col gap-2 pointer-events-none">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { Palette, Globe } from 'lucide-react';
 import { playThemeSound, playHoverSound } from '../../utils/audio';
@@ -9,6 +9,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const { t, i18n } = useTranslation();
   const [themeIndex, setThemeIndex] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Liste des thèmes possibles (reliés aux classes du body définies dans index.css)
   const themes = ['', 'theme-matrix', 'theme-cyberpunk'];
@@ -88,13 +89,42 @@ export default function Navbar() {
             <button onClick={toggleTheme} className="text-gray-400">
               <Palette size={18} />
             </button>
-          <button className="text-white focus:outline-none">
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="text-white focus:outline-none">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              {mobileMenuOpen ? (
+                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
             </svg>
           </button>
         </div>
       </div>
+
+      {/* Mobile Menu Dropdown */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-dark-bg/95 backdrop-blur-xl border-b border-white/10 overflow-hidden"
+          >
+            <div className="flex flex-col items-center py-6 gap-6">
+              {navLinks.map((link) => (
+                <a 
+                  key={link.name} 
+                  href={link.href} 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-lg font-medium text-gray-300 hover:text-[var(--color-acc1)] transition-colors"
+                >
+                  {link.name}
+                </a>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 }
