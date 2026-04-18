@@ -15,7 +15,7 @@ const resources = {
       },
       hero: {
         greeting: "Bonjour, je suis",
-        name: "Chennouf wail.",
+        name: "Chennouf Wail.",
         titles: ["Développeur Frontend 🚀", "Passionné par l'UI/UX 🎨", "Créateur d'expériences 3D 🌐"],
         description: "Un développeur passionné par la création d'interfaces utilisateur exceptionnelles, performantes et accessibles avec des technologies modernes.",
         btnProjects: "Voir mes projets",
@@ -66,10 +66,32 @@ const resources = {
           { date: "Juillet 2024", title: "Tailwind CSS v4 : Pourquoi ça change tout", category: "CSS" }
         ]
       },
+      counters: {
+        stats: [
+          { label: "Lignes de code", value: 25000 },
+          { label: "Tasses de café", value: 1200 },
+          { label: "Projets Open-Source", value: 5 }
+        ]
+      },
       contact: {
         subtitle: "Et ensuite ?", title: "Contactez-moi", desc: "Je suis à l'écoute d'opportunités. Envoyez-moi un message !",
         placeholders: { name: "Votre nom complet", email: "vous@exemple.com", msg: "Votre message ici..." },
         btnSending: "Envoi en cours...", btnSent: "Message Envoyé !", btnSend: "Envoyer", footer: "Conçu avec ❤️ par Chennouf wail"
+      },
+      guestbook: {
+        subtitle: "Base de données", title: "Livre d'or", desc: "Laissez une trace permanente sur ce site. Les requêtes sont directement inscrites dans la base de données REST de mon Node.js.",
+        nameHolder: "Votre nom ou entreprise", msgHolder: "Laissez un message crypté...", btnSign: "Signer le Livre", btnWriting: "Écriture BDD...",
+        empty: "Aucun enregistrement existant. Soyez le premier.", loading: "Connexion au cluster..."
+      },
+      heroRight: {
+        type: "Architecte UI/UX",
+        engine: "V8 Engine / Webpack"
+      },
+      translator: {
+        connected: "Connecté à l'API Linguistique",
+        placeholder: "Traduire le site en... (ex: Japonais)",
+        btn: "Lancer l'algorithme",
+        loading: "Traduction Profonde..."
       }
     }
   },
@@ -79,8 +101,8 @@ const resources = {
         home: "Home", about: "About", experience: "Journey", skills: "Skills", projects: "Projects", blog: "Blog", contact: "Contact",
       },
       hero: {
-        greeting: "Hello, I am", name: "Chennouf wail.", titles: ["Frontend Developer 🚀", "UI/UX Enthusiast 🎨", "3D Web Creator 🌐"],
-        description: "A passionate developer building beautiful, performant user interfaces.",
+        greeting: "Hello, I am", name: "Chennouf Wail.", titles: ["Frontend Developer 🚀", "UI/UX Enthusiast 🎨", "3D Web Creator 🌐"],
+        description: "A passionate developer building beautiful, performant user interfaces with modern tech.",
         btnProjects: "View projects", btnCv: "Download CV",
       },
       about: {
@@ -109,10 +131,32 @@ const resources = {
           { date: "July 2024", title: "Tailwind CSS v4 changes everything", category: "CSS" }
         ]
       },
+      counters: {
+        stats: [
+          { label: "Lines of code", value: 25000 },
+          { label: "Cups of coffee", value: 1200 },
+          { label: "Open-Source Projects", value: 5 }
+        ]
+      },
       contact: {
         subtitle: "What's Next?", title: "Get In Touch", desc: "Open to opportunities.",
         placeholders: { name: "Name", email: "Email", msg: "Message" },
         btnSending: "Sending...", btnSent: "Sent!", btnSend: "Send Mail", footer: "Built with ❤️ by Chennouf wail"
+      },
+      guestbook: {
+        subtitle: "Live Database", title: "Guestbook", desc: "Leave a permanent mark. Requests are written directly to my Node.js REST database.",
+        nameHolder: "Your name or company", msgHolder: "Leave an encrypted message...", btnSign: "Sign Book", btnWriting: "Writing DB...",
+        empty: "No records found. Be the first.", loading: "Connecting to cluster..."
+      },
+      heroRight: {
+        type: "UI/UX Architect",
+        engine: "V8 Engine / Webpack"
+      },
+      translator: {
+        connected: "Connected to NLP API",
+        placeholder: "Translate site into... (e.g. Japanese)",
+        btn: "Run Algorithm",
+        loading: "Deep Translation..."
       }
     }
   }

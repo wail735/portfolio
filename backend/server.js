@@ -10,6 +10,18 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+const fs = require('fs');
+const path = require('path');
+const dbPath = path.join(__dirname, 'database.json');
+
+const getDatabase = () => {
+  if (!fs.existsSync(dbPath)) return [];
+  try {
+    const raw = fs.readFileSync(dbPath);
+    return JSON.parse(raw);
+  } catch (e) { return []; }
+};
+
 // Configuration automatique du transporteur SMTP (Gmail)
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -61,6 +73,24 @@ app.post('/api/contact', async (req, res) => {
         console.error("Erreur serveur d'envoi", error);
         res.status(500).json({ success: false, message: "Échec du serveur.", error: error.message });
     }
+});
+
+// Route GET Livre d'or
+app.get('/api/guestbook', (req, res) => {
+    res.json(getDatabase());
+});
+
+// Route POST Livre d'or
+app.post('/api/guestbook', (req, res) => {
+    const { name, message } = req.body;
+    if (!name || !message) return res.status(400).json({ success: false, error: 'Champs manquants' });
+
+    const db = getDatabase();
+    // Limite à 50 messages stockés
+    const newDb = [{ id: Date.now(), name, message, date: new Date().toISOString() }, ...db].slice(0, 50);
+    fs.writeFileSync(dbPath, JSON.stringify(newDb, null, 2));
+
+    res.json({ success: true, messages: newDb });
 });
 
 // Lancement du serveur

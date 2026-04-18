@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { Palette, Globe } from 'lucide-react';
 import { playThemeSound, playHoverSound } from '../../utils/audio';
+import LanguageSelector from './LanguageSelector';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -38,13 +39,6 @@ export default function Navbar() {
     document.body.className = themes[nextIndex];
   };
 
-  // Gestion de la traduction (Feature 8)
-  const toggleLanguage = () => {
-    playHoverSound(); // Son SFX au changement de langue
-    const nextLang = i18n.language === 'fr' ? 'en' : 'fr';
-    i18n.changeLanguage(nextLang);
-  };
-
   return (
     <motion.nav 
       initial={{ y: -100 }}
@@ -74,15 +68,8 @@ export default function Navbar() {
           ))}
 
           <div className="flex items-center gap-4 ml-4 pl-4 border-l border-white/20">
-            {/* Bouton de Langue */}
-            <button 
-              onClick={toggleLanguage}
-              className="flex items-center gap-1 text-gray-400 hover:text-white transition-colors text-sm font-bold uppercase"
-              aria-label="Changer de langue"
-            >
-              <Globe size={18} />
-              {i18n.language}
-            </button>
+            {/* Bouton de Langue AI */}
+            <LanguageSelector />
             
             {/* Bouton de Thème */}
             <button 
@@ -97,9 +84,7 @@ export default function Navbar() {
 
         {/* Mobile Menu Button - Minimal */}
         <div className="md:hidden flex items-center gap-4">
-            <button onClick={toggleLanguage} className="text-gray-400 font-bold uppercase text-sm">
-              {i18n.language}
-            </button>
+            <LanguageSelector />
             <button onClick={toggleTheme} className="text-gray-400">
               <Palette size={18} />
             </button>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { ExternalLink, X } from 'lucide-react';
+import Tilt from 'react-parallax-tilt';
 
 const GithubIcon = ({ size }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -56,11 +57,21 @@ export default function Projects() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.5, delay: project.idx * 0.2 }}
               onClick={() => setSelectedProject(project)}
-              className="group relative flex flex-col justify-between p-6 bg-dark-card border border-white/10 rounded cursor-pointer overflow-hidden hover:-translate-y-2 transition-transform duration-300 shadow-lg"
             >
-              <div className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 z-0 ${project.imageBg}`}></div>
+              <Tilt
+                className="group relative flex flex-col justify-between p-6 bg-[#111] border border-white/10 rounded cursor-pointer overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.5)] h-[100%] hover:border-cyan-500/50 transition-colors"
+                glareEnable={true} 
+                glareMaxOpacity={0.4} 
+                glareColor="#00f0ff" 
+                glarePosition="all" 
+                scale={1.03}
+                transitionSpeed={1000}
+                tiltMaxAngleX={8}
+                tiltMaxAngleY={8}
+              >
+                <div className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 z-0 ${project.imageBg}`}></div>
 
-              <div className="relative z-10">
+                <div className="relative z-10">
                 <div className="flex justify-between items-center mb-6 text-[var(--color-acc1)]">
                   <div className="w-10 h-10 flex items-center justify-center">
                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -86,7 +97,8 @@ export default function Projects() {
                 <ul className="flex flex-wrap gap-3 text-xs font-mono text-white/50">
                   {project.tech.map((tech, i) => <li key={i}>{tech}</li>)}
                 </ul>
-              </div>
+                </div>
+              </Tilt>
             </motion.div>
           ))}
         </div>
